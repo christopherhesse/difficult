@@ -1,0 +1,15 @@
+{
+  "name": "GitHub: Difficult",
+  "version": "0.9",
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "css": ["diffview.css"],
+      "js": ["jquery.js", "underscore.js", "async.js", "difflib.js", "diffview.js", "diff.js", "main.js"]
+    }
+  ],
+  "permissions": [
+    "*://*/"
+  ],
+  "manifest_version": 2
+}

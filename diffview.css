@@ -1,0 +1,22 @@
+table.diff {
+  white-space: pre;
+  overflow: scroll;
+}
+table.diff .line {
+  padding-left: 20px;
+}
+table.diff .empty {
+  background-color: #ddd;
+}
+table.diff .replace {
+  background-color: #fdb;
+}
+table.diff .delete {
+  background-color: #fdd;
+}
+table.diff .skip {
+  background-color: #efefef;
+}
+table.diff .insert {
+  background-color: #dfd;
+}
