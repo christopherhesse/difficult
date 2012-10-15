@@ -35,14 +35,11 @@ diff.parse_diff = (contents) ->
         # scan forward for +++ line
         while index < lines.length
             if lines[index].match(/^\+\+\+/)
-                console.log('line', lines[index])
                 file_path = lines[index].match(/^\+\+\+ b\/(.+)/)[1]
                 index++
                 break
-            console.log('skip line', lines[index])
             index++
 
-        console.log("file_path", file_path)
 
         # find all hunks in this file
         while index < lines.length and lines[index][0] != 'd'

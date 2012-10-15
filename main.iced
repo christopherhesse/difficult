@@ -1,3 +1,4 @@
+# TO FIX:
 # filename with space
 # fix styling
 #  line height
@@ -5,6 +6,7 @@
 #  when comparing to empty file
 #  intra line changes
 #  balance of diff window is off
+
 # features:
 #   patience diff(?)
 #   view full original
@@ -57,8 +59,6 @@ main = () ->
 
     await fetch_url(diff_url, defer diff_contents)
     change_set = diff.parse_diff(diff.invert_diff(diff_contents))
-
-    console.log(change_set)
 
     $('.diff-view .file').each (_index, elem) ->
         $button_group = $(elem).find('.button-group')
