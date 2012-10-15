@@ -1,3 +1,4 @@
+# filename with space
 # fix styling
 #  line height
 #  extra width
@@ -56,6 +57,8 @@ main = () ->
 
     await fetch_url(diff_url, defer diff_contents)
     change_set = diff.parse_diff(diff.invert_diff(diff_contents))
+
+    console.log(change_set)
 
     $('.diff-view .file').each (_index, elem) ->
         $button_group = $(elem).find('.button-group')

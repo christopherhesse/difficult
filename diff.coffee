@@ -32,14 +32,22 @@ diff.parse_diff = (contents) ->
     while index < lines.length
         current_changes = []
 
-        [_diff_line, _index_line, first_file, _second_file] = lines[index...index+4]
-        index += 4
-        file_path = first_file.match(/.+? a\/(.+)/)[1]
+        # scan forward for +++ line
+        while index < lines.length
+            if lines[index].match(/^\+\+\+/)
+                console.log('line', lines[index])
+                file_path = lines[index].match(/^\+\+\+ b\/(.+)/)[1]
+                index++
+                break
+            console.log('skip line', lines[index])
+            index++
+
+        console.log("file_path", file_path)
 
         # find all hunks in this file
         while index < lines.length and lines[index][0] != 'd'
             hunk = lines[index++]
-            line_number = hunk.match(/@@ \-(\d+),\d+ \+\d+,\d+ @@/)[1]
+            line_number = hunk.match(/@@ \-(\d+),\d+ .*/)[1]
 
             while index < lines.length and lines[index][0] not in ['d', '@']
                 c = lines[index][0]
@@ -70,6 +78,10 @@ diff.invert_diff = (contents) ->
 
         match = line.match(/^(\+|\-)(.*)/)
         if match?
+            if line.match(/^(\+\+\+|\-\-\-)/)
+                # skip file diff lines
+                result.push(line)
+                continue
             [_, plus_or_minus, content] = match
             plus_or_minus = {'+': '-', '-': '+'}[plus_or_minus]
             result.push("#{plus_or_minus}#{content}")

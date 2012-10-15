@@ -92,11 +92,12 @@
             return diff_contents = arguments[0];
           };
         })(),
-        lineno: 57
+        lineno: 58
       }));
       __iced_deferrals._fulfill();
     })(function() {
       change_set = diff.parse_diff(diff.invert_diff(diff_contents));
+      console.log(change_set);
       return $('.diff-view .file').each(function(_index, elem) {
         var $button, $button_group, $container, $diff_table, current_raw_path, file_url, relative_path;
         $button_group = $(elem).find('.button-group');
@@ -124,7 +125,7 @@
                   return current = arguments[0];
                 };
               })(),
-              lineno: 76
+              lineno: 79
             }));
             __iced_deferrals._fulfill();
           })(function() {

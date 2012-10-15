@@ -21,19 +21,27 @@
   };
 
   diff.parse_diff = function(contents) {
-    var c, content, current_changes, file_changes, file_path, first_file, hunk, index, line_number, lines, _diff_line, _index_line, _ref, _ref1, _second_file;
+    var c, content, current_changes, file_changes, file_path, hunk, index, line_number, lines, _ref;
     lines = contents.split('\n');
     index = 0;
     file_changes = {};
     while (index < lines.length) {
       current_changes = [];
-      _ref = lines.slice(index, index + 4), _diff_line = _ref[0], _index_line = _ref[1], first_file = _ref[2], _second_file = _ref[3];
-      index += 4;
-      file_path = first_file.match(/.+? a\/(.+)/)[1];
+      while (index < lines.length) {
+        if (lines[index].match(/^\+\+\+/)) {
+          console.log('line', lines[index]);
+          file_path = lines[index].match(/^\+\+\+ b\/(.+)/)[1];
+          index++;
+          break;
+        }
+        console.log('skip line', lines[index]);
+        index++;
+      }
+      console.log("file_path", file_path);
       while (index < lines.length && lines[index][0] !== 'd') {
         hunk = lines[index++];
-        line_number = hunk.match(/@@ \-(\d+),\d+ \+\d+,\d+ @@/)[1];
-        while (index < lines.length && ((_ref1 = lines[index][0]) !== 'd' && _ref1 !== '@')) {
+        line_number = hunk.match(/@@ \-(\d+),\d+ .*/)[1];
+        while (index < lines.length && ((_ref = lines[index][0]) !== 'd' && _ref !== '@')) {
           c = lines[index][0];
           if (c === '+') {
             content = lines[index].slice(1);
@@ -73,6 +81,10 @@
       }
       match = line.match(/^(\+|\-)(.*)/);
       if (match != null) {
+        if (line.match(/^(\+\+\+|\-\-\-)/)) {
+          result.push(line);
+          continue;
+        }
         _ = match[0], plus_or_minus = match[1], content = match[2];
         plus_or_minus = {
           '+': '-',
