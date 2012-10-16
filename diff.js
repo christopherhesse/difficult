@@ -29,15 +29,12 @@
       current_changes = [];
       while (index < lines.length) {
         if (lines[index].match(/^\+\+\+/)) {
-          console.log('line', lines[index]);
           file_path = lines[index].match(/^\+\+\+ b\/(.+)/)[1];
           index++;
           break;
         }
-        console.log('skip line', lines[index]);
         index++;
       }
-      console.log("file_path", file_path);
       while (index < lines.length && lines[index][0] !== 'd') {
         hunk = lines[index++];
         line_number = hunk.match(/@@ \-(\d+),\d+ .*/)[1];

@@ -43,8 +43,29 @@ find_diff_url = () ->
 
     return null
 
+
 url_unescape = (url) ->
     return unescape(url.replace(/&#x(..);/g, '%$1'))
+
+
+display_sidebyside = ($button, $diff_table, $container, current_raw_path, relative_path, change_set) ->
+    await fetch_url(current_raw_path, defer current)
+    parent = diff.apply_changes(relative_path, change_set, current)
+
+    if parent == current
+        $content = $('<div>Files are the same</div>')
+    else
+        $content = $(diff.jsdiff(parent, current))
+    $diff_table.detach()
+    $container.append($content)
+    $button.removeClass('sidebyside').addClass('normaldiff').text('Normal')
+
+
+display_normal = ($button, $diff_table, $container) ->
+    $container.find('table.diff').remove()
+    $container.append($diff_table)
+    $button.removeClass('normaldiff').addClass('sidebyside').text('Side-by-Side')
+
 
 main = () ->
     if $('#files.diff-view').length == 0
@@ -74,24 +95,16 @@ main = () ->
         $diff_table = $(elem).find('.diff-table')
         $container = $diff_table.parent()
 
+        $(elem).find('.meta').on 'dblclick', (e) ->
+            $container.toggle()
+
         $button.on 'click', '.sidebyside', (e) ->
             e.preventDefault()
-            await fetch_url(current_raw_path, defer current)
-            parent = diff.apply_changes(relative_path, change_set, current)
-
-            if parent == current
-                $content = $('<div>Files are the same</div>')
-            else
-                $content = $(diff.jsdiff(parent, current))
-            $diff_table.detach()
-            $container.append($content)
-            $(e.target).removeClass('sidebyside').addClass('normaldiff').text('Normal')
+            display_sidebyside($(e.target), $diff_table, $container, current_raw_path, relative_path, change_set)
 
         $button.on 'click', '.normaldiff', (e) ->
             e.preventDefault()
-            $container.find('table.diff').remove()
-            $container.append($diff_table)
-            $(e.target).removeClass('normaldiff').addClass('sidebyside').text('Side-by-Side')
+            display_normal($(e.target), $diff_table, $container)
 
         $button_group.prepend($button)
 
