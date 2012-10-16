@@ -95,9 +95,11 @@ main = () ->
         $diff_table = $(elem).find('.diff-table')
         $container = $diff_table.parent()
 
+        # double clicking the file bar hides the diff
         $(elem).find('.meta').on 'dblclick', (e) ->
             $container.toggle()
 
+        # make a button that toggles between side-by-side and normal diff modes
         $button.on 'click', '.sidebyside', (e) ->
             e.preventDefault()
             display_sidebyside($(e.target), $diff_table, $container, current_raw_path, relative_path, change_set)
