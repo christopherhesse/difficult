@@ -1,7 +1,7 @@
 difficult
 =========
 
-GitHub Chrome Extension
+GitHub Chrome Extension - Adds side-by-side diff and collapsing of diffs for individual files, mostly works
 
     npm install -g iced-coffee-script
     iced --watch --compile --runtime window main.iced diff.coffee
